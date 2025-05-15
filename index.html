@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,47 +9,101 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
+        :root {
+            --teal-600: #0d9488;
+            --teal-500: #14b8a6;
+            --teal-400: #2dd4bf;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
         
         .hero {
-            background: linear-gradient(rgba(0, 128, 128, 0.7), rgba(0, 128, 128, 0.5)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), 
+                        url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+        
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            perspective: 1000px;
         }
         
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 128, 128, 0.2);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .service-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .service-card:hover .service-card-inner {
+            transform: rotateY(5deg);
+        }
+        
+        .portfolio-item {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .portfolio-overlay {
+            background: linear-gradient(to top, rgba(13, 148, 136, 0.9), transparent);
+            transition: all 0.4s ease;
+            opacity: 0;
         }
         
         .portfolio-item:hover .portfolio-overlay {
             opacity: 1;
         }
         
-        .portfolio-overlay {
-            background: rgba(0, 128, 128, 0.8);
-            transition: all 0.3s ease;
-        }
-        
         .fade-in {
             opacity: 0;
-            transition: opacity 0.6s ease-in;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
         }
         
         .fade-in.visible {
             opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--teal-500);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
         }
         
         .testimonial-card {
             min-width: 100%;
-            transition: transform 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         
-        @media (min-width: 768px) {
+        @media (min-width: 640px) {
             .testimonial-card {
                 min-width: 50%;
             }
@@ -61,75 +114,180 @@
                 min-width: 33.333%;
             }
         }
+        
+        .input-field:focus {
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.3);
+        }
+        
+        .hamburger {
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        
+        .hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+        
+        .hamburger-line {
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        
+        .mobile-menu.open {
+            max-height: 500px;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
-<body class="bg-white">
+<body class="bg-white text-gray-800">
     <!-- Navigation -->
-    <nav class="fixed w-full bg-white shadow-md z-50 transition-all duration-300">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <span class="text-teal-600 font-bold text-2xl">ETC LLC</span>
-            </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#home" class="text-gray-800 hover:text-teal-600 transition">Home</a>
-                <a href="#about" class="text-gray-800 hover:text-teal-600 transition">About</a>
-                <a href="#services" class="text-gray-800 hover:text-teal-600 transition">Services</a>
-                <a href="#portfolio" class="text-gray-800 hover:text-teal-600 transition">Projects</a>
-                <a href="#contact" class="text-gray-800 hover:text-teal-600 transition">Contact</a>
-            </div>
-            <div class="md:hidden">
-                <button id="menu-btn" class="text-gray-800 focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
+    <nav class="fixed w-full bg-white shadow-sm z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <div class="flex items-center">
+                    <span class="text-teal-600 font-bold text-2xl">ETC LLC</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-800 hover:text-teal-600 transition">Home</a>
+                    <a href="#about" class="nav-link text-gray-800 hover:text-teal-600 transition">About</a>
+                    <a href="#services" class="nav-link text-gray-800 hover:text-teal-600 transition">Services</a>
+                    <a href="#portfolio" class="nav-link text-gray-800 hover:text-teal-600 transition">Projects</a>
+                    <a href="#contact" class="nav-link text-gray-800 hover:text-teal-600 transition">Contact</a>
+                    <a href="#contact" class="bg-teal-600 text-white px-6 py-2 rounded-full font-medium hover:bg-teal-700 transition duration-300">Get Quote</a>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="menu-btn" class="hamburger focus:outline-none">
+                        <span class="hamburger-line block w-6 h-0.5 bg-gray-800 mb-1.5"></span>
+                        <span class="hamburger-line block w-6 h-0.5 bg-gray-800 mb-1.5"></span>
+                        <span class="hamburger-line block w-6 h-0.5 bg-gray-800"></span>
+                    </button>
+                </div>
             </div>
         </div>
+        
         <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white px-6 py-3 border-t">
-            <div class="flex flex-col space-y-3">
-                <a href="#home" class="text-gray-800 hover:text-teal-600 transition">Home</a>
-                <a href="#about" class="text-gray-800 hover:text-teal-600 transition">About</a>
-                <a href="#services" class="text-gray-800 hover:text-teal-600 transition">Services</a>
-                <a href="#portfolio" class="text-gray-800 hover:text-teal-600 transition">Projects</a>
-                <a href="#contact" class="text-gray-800 hover:text-teal-600 transition">Contact</a>
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white border-t">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="text-gray-800 hover:text-teal-600 transition py-2">Home</a>
+                    <a href="#about" class="text-gray-800 hover:text-teal-600 transition py-2">About</a>
+                    <a href="#services" class="text-gray-800 hover:text-teal-600 transition py-2">Services</a>
+                    <a href="#portfolio" class="text-gray-800 hover:text-teal-600 transition py-2">Projects</a>
+                    <a href="#contact" class="text-gray-800 hover:text-teal-600 transition py-2">Contact</a>
+                    <a href="#contact" class="bg-teal-600 text-white px-6 py-2 rounded-full font-medium hover:bg-teal-700 transition duration-300 text-center mt-2">Get Quote</a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero min-h-screen flex items-center justify-center text-white pt-20">
-        <div class="container mx-auto px-6 text-center fade-in">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">ETC LLC</h1>
-            <p class="text-xl md:text-2xl mb-8">Transforming Spaces, Moving Futures</p>
-            <a href="#contact" class="bg-white text-teal-600 px-8 py-3 rounded-full font-semibold hover:bg-teal-100 transition duration-300 inline-block">Get a Free Quote</a>
+    <section id="home" class="hero min-h-screen flex items-center justify-center text-white pt-16 md:pt-0">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 leading-tight">ETC LLC</h1>
+            <p class="text-xl sm:text-2xl md:text-3xl mb-8 font-light">Transforming Spaces, Moving Futures</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#contact" class="bg-white text-teal-600 px-8 py-3 rounded-full font-semibold hover:bg-teal-100 transition duration-300 inline-block transform hover:scale-105">Get a Free Quote</a>
+                <a href="#services" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-teal-600 transition duration-300 inline-block transform hover:scale-105">Our Services</a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-0 right-0 flex justify-center">
+            <a href="#about" class="text-white animate-bounce">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
         </div>
     </section>
 
     <!-- About Us Section -->
-    <section id="about" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center fade-in">
-                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Who We Are</h2>
-                    <p class="text-gray-600 mb-6">ETC LLC is a UAE-based service provider delivering complete and hassle-free solutions for transport, interior renovation, custom furnishing, and logistics. With a reputation for reliability, we specialize in handling projects from demolition to custom design, ensuring quality, care, and efficiency at every step.</p>
-                    <div class="flex space-x-4">
-                        <div class="bg-teal-100 p-4 rounded-lg">
-                            <i class="fas fa-check-circle text-teal-600 text-2xl mb-2"></i>
-                            <p class="font-semibold">Reliable</p>
-                        </div>
-                        <div class="bg-teal-100 p-4 rounded-lg">
-                            <i class="fas fa-star text-teal-600 text-2xl mb-2"></i>
-                            <p class="font-semibold">Quality</p>
-                        </div>
-                        <div class="bg-teal-100 p-4 rounded-lg">
-                            <i class="fas fa-clock text-teal-600 text-2xl mb-2"></i>
-                            <p class="font-semibold">Efficient</p>
+    <section id="about" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12 fade-in">
+                <div class="lg:w-1/2">
+                    <div class="relative rounded-2xl overflow-hidden shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                             alt="ETC LLC Team" 
+                             class="w-full h-auto object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-teal-600 to-transparent opacity-50"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+                            <p class="font-medium">Our dedicated team working on a luxury villa project in Dubai</p>
                         </div>
                     </div>
                 </div>
-                <div class="md:w-1/2">
-                    <div class="relative rounded-xl overflow-hidden shadow-lg">
-                        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="ETC LLC Team" class="w-full h-auto">
-                        <div class="absolute inset-0 bg-gradient-to-t from-teal-600 to-transparent opacity-50"></div>
+                
+                <div class="lg:w-1/2">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Who We Are</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        ETC LLC is a premier UAE-based service provider delivering complete and hassle-free solutions for transport, interior renovation, custom furnishing, and logistics. With a stellar reputation for reliability, we specialize in handling projects from demolition to custom design, ensuring quality, care, and efficiency at every step.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                            <div class="text-teal-600 mb-2">
+                                <i class="fas fa-check-circle text-2xl"></i>
+                            </div>
+                            <p class="font-semibold text-gray-800">Reliable</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                            <div class="text-teal-600 mb-2">
+                                <i class="fas fa-star text-2xl"></i>
+                            </div>
+                            <p class="font-semibold text-gray-800">Quality</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                            <div class="text-teal-600 mb-2">
+                                <i class="fas fa-clock text-2xl"></i>
+                            </div>
+                            <p class="font-semibold text-gray-800">Efficient</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <div class="bg-teal-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-calendar-check text-teal-600"></i>
+                            </div>
+                            <span class="text-gray-700">10+ Years Experience</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="bg-teal-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-project-diagram text-teal-600"></i>
+                            </div>
+                            <span class="text-gray-700">200+ Projects</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="bg-teal-100 p-2 rounded-full mr-3">
+                                <i class="fas fa-smile text-teal-600"></i>
+                            </div>
+                            <span class="text-gray-700">98% Satisfaction</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,180 +295,263 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Core Services</h2>
-                <div class="w-20 h-1 bg-teal-600 mx-auto"></div>
+    <section id="services" class="py-16 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 md:mb-16 fade-in">
+                <span class="text-teal-600 font-medium mb-2 block">WHAT WE OFFER</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Core Services</h2>
+                <div class="w-16 h-1 bg-teal-600 mx-auto"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Service Card 1 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-6 transition duration-300 hover:border-teal-500 border border-transparent fade-in">
-                    <div class="text-teal-600 mb-4">
-                        <i class="fas fa-paint-roller text-4xl"></i>
+                <div class="service-card bg-white rounded-xl shadow-md overflow-hidden fade-in">
+                    <div class="service-card-inner">
+                        <div class="p-6">
+                            <div class="text-teal-600 mb-4">
+                                <i class="fas fa-paint-roller text-4xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Interior Renovation</h3>
+                            <p class="text-gray-600 mb-4">Complete transformation of your space with modern designs and premium materials.</p>
+                            <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
+                                Learn more <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Interior Renovation</h3>
-                    <p class="text-gray-600">Complete transformation of your space with modern designs and quality materials.</p>
                 </div>
                 
                 <!-- Service Card 2 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-6 transition duration-300 hover:border-teal-500 border border-transparent fade-in">
-                    <div class="text-teal-600 mb-4">
-                        <i class="fas fa-couch text-4xl"></i>
+                <div class="service-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="transition-delay: 0.1s">
+                    <div class="service-card-inner">
+                        <div class="p-6">
+                            <div class="text-teal-600 mb-4">
+                                <i class="fas fa-couch text-4xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Custom Furniture</h3>
+                            <p class="text-gray-600 mb-4">Bespoke furniture solutions tailored to your space and style preferences.</p>
+                            <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
+                                Learn more <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Custom Furniture Design</h3>
-                    <p class="text-gray-600">Bespoke furniture solutions tailored to your space and style preferences.</p>
                 </div>
                 
                 <!-- Service Card 3 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-6 transition duration-300 hover:border-teal-500 border border-transparent fade-in">
-                    <div class="text-teal-600 mb-4">
-                        <i class="fas fa-building text-4xl"></i>
+                <div class="service-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="transition-delay: 0.2s">
+                    <div class="service-card-inner">
+                        <div class="p-6">
+                            <div class="text-teal-600 mb-4">
+                                <i class="fas fa-building text-4xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Office Fit-Outs</h3>
+                            <p class="text-gray-600 mb-4">Professional workspace designs that boost productivity and reflect your brand.</p>
+                            <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
+                                Learn more <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Office Fit-Outs</h3>
-                    <p class="text-gray-600">Professional workspace designs that boost productivity and reflect your brand.</p>
                 </div>
                 
                 <!-- Service Card 4 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-6 transition duration-300 hover:border-teal-500 border border-transparent fade-in">
-                    <div class="text-teal-600 mb-4">
-                        <i class="fas fa-home text-4xl"></i>
+                <div class="service-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="transition-delay: 0.3s">
+                    <div class="service-card-inner">
+                        <div class="p-6">
+                            <div class="text-teal-600 mb-4">
+                                <i class="fas fa-home text-4xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Residential Makeovers</h3>
+                            <p class="text-gray-600 mb-4">Transform your home into a stylish and functional living space.</p>
+                            <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
+                                Learn more <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Residential Makeovers</h3>
-                    <p class="text-gray-600">Transform your home into a stylish and functional living space.</p>
                 </div>
                 
                 <!-- Service Card 5 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-6 transition duration-300 hover:border-teal-500 border border-transparent fade-in">
-                    <div class="text-teal-600 mb-4">
-                        <i class="fas fa-truck text-4xl"></i>
+                <div class="service-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="transition-delay: 0.4s">
+                    <div class="service-card-inner">
+                        <div class="p-6">
+                            <div class="text-teal-600 mb-4">
+                                <i class="fas fa-truck text-4xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Logistics & Transport</h3>
+                            <p class="text-gray-600 mb-4">Efficient and secure transportation solutions for your goods and materials.</p>
+                            <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
+                                Learn more <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Logistics & Transport</h3>
-                    <p class="text-gray-600">Efficient and secure transportation solutions for your goods and materials.</p>
                 </div>
                 
                 <!-- Service Card 6 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-6 transition duration-300 hover:border-teal-500 border border-transparent fade-in">
-                    <div class="text-teal-600 mb-4">
-                        <i class="fas fa-hammer text-4xl"></i>
+                <div class="service-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="transition-delay: 0.5s">
+                    <div class="service-card-inner">
+                        <div class="p-6">
+                            <div class="text-teal-600 mb-4">
+                                <i class="fas fa-hammer text-4xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Demolition & Clearing</h3>
+                            <p class="text-gray-600 mb-4">Safe and professional demolition services with complete site clearance.</p>
+                            <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
+                                Learn more <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Demolition & Clearing</h3>
-                    <p class="text-gray-600">Safe and professional demolition services with complete site clearance.</p>
                 </div>
                 
                 <!-- Service Card 7 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-6 transition duration-300 hover:border-teal-500 border border-transparent fade-in">
-                    <div class="text-teal-600 mb-4">
-                        <i class="fas fa-truck-loading text-4xl"></i>
+                <div class="service-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="transition-delay: 0.6s">
+                    <div class="service-card-inner">
+                        <div class="p-6">
+                            <div class="text-teal-600 mb-4">
+                                <i class="fas fa-truck-loading text-4xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Furniture Delivery</h3>
+                            <p class="text-gray-600 mb-4">Careful handling and timely delivery of your furniture items.</p>
+                            <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
+                                Learn more <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">Furniture Delivery</h3>
-                    <p class="text-gray-600">Careful handling and timely delivery of your furniture items.</p>
                 </div>
                 
                 <!-- Service Card 8 -->
-                <div class="service-card bg-white rounded-lg shadow-md p-6 transition duration-300 hover:border-teal-500 border border-transparent fade-in">
-                    <div class="text-teal-600 mb-4">
-                        <i class="fas fa-clipboard-check text-4xl"></i>
+                <div class="service-card bg-white rounded-xl shadow-md overflow-hidden fade-in" style="transition-delay: 0.7s">
+                    <div class="service-card-inner">
+                        <div class="p-6">
+                            <div class="text-teal-600 mb-4">
+                                <i class="fas fa-clipboard-check text-4xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-800">Project Supervision</h3>
+                            <p class="text-gray-600 mb-4">Professional oversight to ensure your project runs smoothly and meets deadlines.</p>
+                            <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
+                                Learn more <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-800">On-site Project Supervision</h3>
-                    <p class="text-gray-600">Professional oversight to ensure your project runs smoothly and meets deadlines.</p>
                 </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in">
+                <a href="#contact" class="inline-flex items-center bg-teal-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-teal-700 transition duration-300 transform hover:scale-105">
+                    Get Custom Solution <i class="fas fa-arrow-right ml-2"></i>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Portfolio Section -->
-    <section id="portfolio" class="py-20 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Projects</h2>
-                <div class="w-20 h-1 bg-teal-600 mx-auto"></div>
+    <section id="portfolio" class="py-16 md:py-24 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 md:mb-16 fade-in">
+                <span class="text-teal-600 font-medium mb-2 block">OUR WORK</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Projects</h2>
+                <div class="w-16 h-1 bg-teal-600 mx-auto"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Project 1 -->
-                <div class="portfolio-item relative rounded-lg overflow-hidden shadow-lg fade-in">
-                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Project 1" class="w-full h-64 object-cover">
-                    <div class="portfolio-overlay absolute inset-0 flex items-center justify-center opacity-0">
-                        <div class="text-white text-center p-4">
-                            <h3 class="text-xl font-bold mb-2">Office Renovation</h3>
-                            <p>Complete transformation of a corporate office space in Dubai</p>
+                <div class="portfolio-item relative rounded-xl overflow-hidden shadow-lg fade-in">
+                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80" 
+                         alt="Office Renovation" 
+                         class="w-full h-64 sm:h-80 object-cover">
+                    <div class="portfolio-overlay absolute inset-0 flex items-end p-6">
+                        <div class="text-white">
+                            <h3 class="text-xl font-bold mb-1">Office Renovation</h3>
+                            <p class="text-sm opacity-90">Complete transformation of corporate office in Dubai</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 2 -->
-                <div class="portfolio-item relative rounded-lg overflow-hidden shadow-lg fade-in">
-                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80" alt="Project 2" class="w-full h-64 object-cover">
-                    <div class="portfolio-overlay absolute inset-0 flex items-center justify-center opacity-0">
-                        <div class="text-white text-center p-4">
-                            <h3 class="text-xl font-bold mb-2">Villa Makeover</h3>
-                            <p>Modern redesign of a luxury villa in Abu Dhabi</p>
+                <div class="portfolio-item relative rounded-xl overflow-hidden shadow-lg fade-in" style="transition-delay: 0.1s">
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
+                         alt="Villa Makeover" 
+                         class="w-full h-64 sm:h-80 object-cover">
+                    <div class="portfolio-overlay absolute inset-0 flex items-end p-6">
+                        <div class="text-white">
+                            <h3 class="text-xl font-bold mb-1">Villa Makeover</h3>
+                            <p class="text-sm opacity-90">Modern redesign of luxury villa in Abu Dhabi</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 3 -->
-                <div class="portfolio-item relative rounded-lg overflow-hidden shadow-lg fade-in">
-                    <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Project 3" class="w-full h-64 object-cover">
-                    <div class="portfolio-overlay absolute inset-0 flex items-center justify-center opacity-0">
-                        <div class="text-white text-center p-4">
-                            <h3 class="text-xl font-bold mb-2">Restaurant Fit-Out</h3>
-                            <p>Complete interior design and installation for a high-end restaurant</p>
+                <div class="portfolio-item relative rounded-xl overflow-hidden shadow-lg fade-in" style="transition-delay: 0.2s">
+                    <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80" 
+                         alt="Restaurant Fit-Out" 
+                         class="w-full h-64 sm:h-80 object-cover">
+                    <div class="portfolio-overlay absolute inset-0 flex items-end p-6">
+                        <div class="text-white">
+                            <h3 class="text-xl font-bold mb-1">Restaurant Fit-Out</h3>
+                            <p class="text-sm opacity-90">Interior design for high-end restaurant</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 4 -->
-                <div class="portfolio-item relative rounded-lg overflow-hidden shadow-lg fade-in">
-                    <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Project 4" class="w-full h-64 object-cover">
-                    <div class="portfolio-overlay absolute inset-0 flex items-center justify-center opacity-0">
-                        <div class="text-white text-center p-4">
-                            <h3 class="text-xl font-bold mb-2">Custom Furniture</h3>
-                            <p>Bespoke furniture pieces designed for a luxury apartment</p>
+                <div class="portfolio-item relative rounded-xl overflow-hidden shadow-lg fade-in" style="transition-delay: 0.3s">
+                    <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80" 
+                         alt="Custom Furniture" 
+                         class="w-full h-64 sm:h-80 object-cover">
+                    <div class="portfolio-overlay absolute inset-0 flex items-end p-6">
+                        <div class="text-white">
+                            <h3 class="text-xl font-bold mb-1">Custom Furniture</h3>
+                            <p class="text-sm opacity-90">Bespoke pieces for luxury apartment</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 5 -->
-                <div class="portfolio-item relative rounded-lg overflow-hidden shadow-lg fade-in">
-                    <img src="https://images.unsplash.com/photo-1600566752227-17c8f611b00c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Project 5" class="w-full h-64 object-cover">
-                    <div class="portfolio-overlay absolute inset-0 flex items-center justify-center opacity-0">
-                        <div class="text-white text-center p-4">
-                            <h3 class="text-xl font-bold mb-2">Commercial Space</h3>
-                            <p>Complete renovation of a retail space in Dubai Mall</p>
+                <div class="portfolio-item relative rounded-xl overflow-hidden shadow-lg fade-in" style="transition-delay: 0.4s">
+                    <img src="https://images.unsplash.com/photo-1600566752227-17c8f611b00c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Commercial Space" 
+                         class="w-full h-64 sm:h-80 object-cover">
+                    <div class="portfolio-overlay absolute inset-0 flex items-end p-6">
+                        <div class="text-white">
+                            <h3 class="text-xl font-bold mb-1">Commercial Space</h3>
+                            <p class="text-sm opacity-90">Renovation of retail space in Dubai Mall</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 6 -->
-                <div class="portfolio-item relative rounded-lg overflow-hidden shadow-lg fade-in">
-                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Project 6" class="w-full h-64 object-cover">
-                    <div class="portfolio-overlay absolute inset-0 flex items-center justify-center opacity-0">
-                        <div class="text-white text-center p-4">
-                            <h3 class="text-xl font-bold mb-2">Logistics Solution</h3>
-                            <p>Efficient transportation and setup for a corporate relocation</p>
+                <div class="portfolio-item relative rounded-xl overflow-hidden shadow-lg fade-in" style="transition-delay: 0.5s">
+                    <img src="https://images.unsplash.com/photo-1617806118233-18e1de2772c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1036&q=80" 
+                         alt="Logistics Solution" 
+                         class="w-full h-64 sm:h-80 object-cover">
+                    <div class="portfolio-overlay absolute inset-0 flex items-end p-6">
+                        <div class="text-white">
+                            <h3 class="text-xl font-bold mb-1">Logistics Solution</h3>
+                            <p class="text-sm opacity-90">Corporate relocation services</p>
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="text-center mt-12 fade-in">
+                <a href="#contact" class="inline-flex items-center border-2 border-teal-600 text-teal-600 px-8 py-3 rounded-full font-semibold hover:bg-teal-600 hover:text-white transition duration-300 transform hover:scale-105">
+                    View More Projects <i class="fas fa-arrow-right ml-2"></i>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="py-20 bg-teal-600 text-white">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-3xl font-bold mb-4">What Our Clients Say</h2>
-                <div class="w-20 h-1 bg-white mx-auto"></div>
+    <section class="py-16 md:py-24 bg-teal-600 text-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 md:mb-16 fade-in">
+                <span class="text-teal-200 font-medium mb-2 block">CLIENT FEEDBACK</span>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
+                <div class="w-16 h-1 bg-white mx-auto"></div>
             </div>
             
             <div class="relative overflow-hidden">
-                <div id="testimonial-container" class="flex transition-transform duration-500">
+                <div id="testimonial-container" class="flex transition-transform duration-500 ease-in-out">
                     <!-- Testimonial 1 -->
-                    <div class="testimonial-card flex-shrink-0 px-4">
-                        <div class="bg-white bg-opacity-10 p-8 rounded-lg backdrop-blur-sm">
+                    <div class="testimonial-card flex-shrink-0 px-3">
+                        <div class="bg-white bg-opacity-10 p-8 rounded-xl backdrop-blur-sm h-full">
                             <div class="flex mb-4">
                                 <i class="fas fa-star text-yellow-300"></i>
                                 <i class="fas fa-star text-yellow-300"></i>
@@ -320,18 +561,18 @@
                             </div>
                             <p class="mb-6">"ETC LLC transformed our office space beyond expectations. Their attention to detail and project management was impeccable. We'll definitely use their services again for our next project."</p>
                             <div class="flex items-center">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ahmed Al Maktoum" class="w-12 h-12 rounded-full mr-4 object-cover">
                                 <div>
                                     <h4 class="font-bold">Ahmed Al Maktoum</h4>
-                                    <p class="text-teal-200">CEO, Tech Solutions UAE</p>
+                                    <p class="text-teal-200 text-sm">CEO, Tech Solutions UAE</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Testimonial 2 -->
-                    <div class="testimonial-card flex-shrink-0 px-4">
-                        <div class="bg-white bg-opacity-10 p-8 rounded-lg backdrop-blur-sm">
+                    <div class="testimonial-card flex-shrink-0 px-3">
+                        <div class="bg-white bg-opacity-10 p-8 rounded-xl backdrop-blur-sm h-full">
                             <div class="flex mb-4">
                                 <i class="fas fa-star text-yellow-300"></i>
                                 <i class="fas fa-star text-yellow-300"></i>
@@ -341,18 +582,18 @@
                             </div>
                             <p class="mb-6">"The custom furniture they designed for our villa is stunning. They understood our vision perfectly and delivered on time. Highly recommend their interior design services."</p>
                             <div class="flex items-center">
-                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Fatima Al Hashimi" class="w-12 h-12 rounded-full mr-4 object-cover">
                                 <div>
                                     <h4 class="font-bold">Fatima Al Hashimi</h4>
-                                    <p class="text-teal-200">Homeowner, Palm Jumeirah</p>
+                                    <p class="text-teal-200 text-sm">Homeowner, Palm Jumeirah</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Testimonial 3 -->
-                    <div class="testimonial-card flex-shrink-0 px-4">
-                        <div class="bg-white bg-opacity-10 p-8 rounded-lg backdrop-blur-sm">
+                    <div class="testimonial-card flex-shrink-0 px-3">
+                        <div class="bg-white bg-opacity-10 p-8 rounded-xl backdrop-blur-sm h-full">
                             <div class="flex mb-4">
                                 <i class="fas fa-star text-yellow-300"></i>
                                 <i class="fas fa-star text-yellow-300"></i>
@@ -362,118 +603,170 @@
                             </div>
                             <p class="mb-6">"Their logistics team handled our office relocation flawlessly. Everything was packed, transported and set up in the new location without a single item damaged. Professional service from start to finish."</p>
                             <div class="flex items-center">
-                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Client" class="w-12 h-12 rounded-full mr-4">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Karim Nassar" class="w-12 h-12 rounded-full mr-4 object-cover">
                                 <div>
                                     <h4 class="font-bold">Karim Nassar</h4>
-                                    <p class="text-teal-200">Operations Manager, Finance Corp</p>
+                                    <p class="text-teal-200 text-sm">Operations Manager, Finance Corp</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 4 -->
+                    <div class="testimonial-card flex-shrink-0 px-3">
+                        <div class="bg-white bg-opacity-10 p-8 rounded-xl backdrop-blur-sm h-full">
+                            <div class="flex mb-4">
+                                <i class="fas fa-star text-yellow-300"></i>
+                                <i class="fas fa-star text-yellow-300"></i>
+                                <i class="fas fa-star text-yellow-300"></i>
+                                <i class="fas fa-star text-yellow-300"></i>
+                                <i class="fas fa-star text-yellow-300"></i>
+                            </div>
+                            <p class="mb-6">"The demolition and clearing service was exceptional. They completed the work ahead of schedule and left the site spotless. Highly professional team."</p>
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Youssef Ahmed" class="w-12 h-12 rounded-full mr-4 object-cover">
+                                <div>
+                                    <h4 class="font-bold">Youssef Ahmed</h4>
+                                    <p class="text-teal-200 text-sm">Property Developer</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <button id="prev-testimonial" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 p-2 rounded-full ml-2 hover:bg-opacity-50 transition">
+                <button id="prev-testimonial" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 p-3 rounded-full ml-2 hover:bg-opacity-50 transition focus:outline-none">
                     <i class="fas fa-chevron-left text-white"></i>
                 </button>
-                <button id="next-testimonial" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 p-2 rounded-full mr-2 hover:bg-opacity-50 transition">
+                <button id="next-testimonial" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-30 p-3 rounded-full mr-2 hover:bg-opacity-50 transition focus:outline-none">
                     <i class="fas fa-chevron-right text-white"></i>
                 </button>
+                
+                <div class="flex justify-center mt-8 space-x-2">
+                    <button class="testimonial-dot w-3 h-3 rounded-full bg-white bg-opacity-30 focus:outline-none"></button>
+                    <button class="testimonial-dot w-3 h-3 rounded-full bg-white bg-opacity-30 focus:outline-none"></button>
+                    <button class="testimonial-dot w-3 h-3 rounded-full bg-white bg-opacity-30 focus:outline-none"></button>
+                    <button class="testimonial-dot w-3 h-3 rounded-full bg-white bg-opacity-30 focus:outline-none"></button>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Let's Connect</h2>
-                <div class="w-20 h-1 bg-teal-600 mx-auto"></div>
+    <section id="contact" class="py-16 md:py-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 md:mb-16 fade-in">
+                <span class="text-teal-600 font-medium mb-2 block">GET IN TOUCH</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Let's Connect</h2>
+                <div class="w-16 h-1 bg-teal-600 mx-auto"></div>
             </div>
             
             <div class="flex flex-col lg:flex-row gap-10">
                 <div class="lg:w-1/2 fade-in">
                     <form id="contact-form" class="space-y-6">
                         <div>
-                            <label for="name" class="block text-gray-700 mb-2">Full Name</label>
-                            <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" required>
+                            <label for="name" class="block text-gray-700 mb-2 font-medium">Full Name</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field" required>
                         </div>
                         
                         <div>
-                            <label for="email" class="block text-gray-700 mb-2">Email Address</label>
-                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" required>
+                            <label for="email" class="block text-gray-700 mb-2 font-medium">Email Address</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field" required>
                         </div>
                         
                         <div>
-                            <label for="phone" class="block text-gray-700 mb-2">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" required>
+                            <label for="phone" class="block text-gray-700 mb-2 font-medium">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field" required>
                         </div>
                         
                         <div>
-                            <label for="message" class="block text-gray-700 mb-2">Your Message</label>
-                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" required></textarea>
+                            <label for="service" class="block text-gray-700 mb-2 font-medium">Service Interested In</label>
+                            <select id="service" name="service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field" required>
+                                <option value="">Select a service</option>
+                                <option value="Interior Renovation">Interior Renovation</option>
+                                <option value="Custom Furniture">Custom Furniture</option>
+                                <option value="Office Fit-Outs">Office Fit-Outs</option>
+                                <option value="Residential Makeovers">Residential Makeovers</option>
+                                <option value="Logistics & Transport">Logistics & Transport</option>
+                                <option value="Demolition & Clearing">Demolition & Clearing</option>
+                                <option value="Furniture Delivery">Furniture Delivery</option>
+                                <option value="Project Supervision">Project Supervision</option>
+                            </select>
                         </div>
                         
-                        <button type="submit" class="bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 w-full">Send Message</button>
+                        <div>
+                            <label for="message" class="block text-gray-700 mb-2 font-medium">Your Message</label>
+                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none input-field" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-teal-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 transform hover:scale-[1.02]">
+                            Send Message <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
                     </form>
                 </div>
                 
-                <div class="lg:w-1/2 fade-in">
-                    <div class="bg-gray-50 p-8 rounded-lg h-full">
-                        <h3 class="text-xl font-bold text-gray-800 mb-6">Contact Information</h3>
+                <div class="lg:w-1/2 fade-in" style="transition-delay: 0.1s">
+                    <div class="bg-gray-50 p-8 rounded-xl h-full shadow-sm">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Contact Information</h3>
                         
                         <div class="space-y-6">
                             <div class="flex items-start">
-                                <div class="text-teal-600 mr-4 mt-1">
-                                    <i class="fas fa-map-marker-alt text-xl"></i>
+                                <div class="bg-teal-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-teal-600"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-800">Our Location</h4>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Our Location</h4>
                                     <p class="text-gray-600">Business Bay, Dubai, UAE</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start">
-                                <div class="text-teal-600 mr-4 mt-1">
-                                    <i class="fas fa-phone-alt text-xl"></i>
+                                <div class="bg-teal-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-teal-600"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-800">Phone Number</h4>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Phone Number</h4>
                                     <p class="text-gray-600">+971 4 123 4567</p>
+                                    <p class="text-gray-600">+971 50 123 4567</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start">
-                                <div class="text-teal-600 mr-4 mt-1">
-                                    <i class="fas fa-envelope text-xl"></i>
+                                <div class="bg-teal-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-teal-600"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-800">Email Address</h4>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Email Address</h4>
                                     <p class="text-gray-600">info@etcllc.ae</p>
+                                    <p class="text-gray-600">support@etcllc.ae</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start">
-                                <div class="text-teal-600 mr-4 mt-1">
-                                    <i class="fas fa-clock text-xl"></i>
+                                <div class="bg-teal-100 p-3 rounded-full mr-4">
+                                    <i class="fas fa-clock text-teal-600"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-800">Working Hours</h4>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Working Hours</h4>
                                     <p class="text-gray-600">Sunday - Thursday: 8:00 AM - 6:00 PM</p>
+                                    <p class="text-gray-600">Friday - Saturday: Closed</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="mt-8">
+                        <div class="mt-10">
                             <h4 class="font-semibold text-gray-800 mb-4">Follow Us</h4>
                             <div class="flex space-x-4">
-                                <a href="#" class="bg-teal-600 text-white p-3 rounded-full hover:bg-teal-700 transition">
+                                <a href="#" class="bg-teal-600 text-white p-3 rounded-full hover:bg-teal-700 transition transform hover:scale-110">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="#" class="bg-teal-600 text-white p-3 rounded-full hover:bg-teal-700 transition">
+                                <a href="#" class="bg-teal-600 text-white p-3 rounded-full hover:bg-teal-700 transition transform hover:scale-110">
                                     <i class="fab fa-instagram"></i>
                                 </a>
-                                <a href="#" class="bg-teal-600 text-white p-3 rounded-full hover:bg-teal-700 transition">
+                                <a href="#" class="bg-teal-600 text-white p-3 rounded-full hover:bg-teal-700 transition transform hover:scale-110">
                                     <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="#" class="bg-teal-600 text-white p-3 rounded-full hover:bg-teal-700 transition transform hover:scale-110">
+                                    <i class="fab fa-facebook-f"></i>
                                 </a>
                             </div>
                         </div>
@@ -481,24 +774,41 @@
                 </div>
             </div>
             
-            <div class="mt-16 rounded-xl overflow-hidden shadow-lg fade-in">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.178509745755!2d55.27037841500886!3d25.19772298389632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43348a67e24b%3A0xff45e502e1ceb7e2!2sBurj%20Khalifa!5e0!3m2!1sen!2sae!4v1629299999999!5m2!1sen!2sae" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <div class="mt-16 rounded-xl overflow-hidden shadow-xl fade-in" style="transition-delay: 0.2s">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.178509745755!2d55.27037841500886!3d25.19772298389632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43348a67e24b%3A0xff45e502e1ceb7e2!2sBurj%20Khalifa!5e0!3m2!1sen!2sae!4v1629299999999!5m2!1sen!2sae" 
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between">
-                <div class="mb-8 md:mb-0">
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <div>
                     <h3 class="text-2xl font-bold mb-4">ETC LLC</h3>
-                    <p class="text-gray-400 max-w-md">Transforming Spaces, Moving Futures. Your trusted partner for interior design, renovation, and logistics services in the UAE.</p>
+                    <p class="text-gray-400 mb-6">Transforming Spaces, Moving Futures. Your trusted partner for interior design, renovation, and logistics services in the UAE.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="bg-gray-800 text-white p-3 rounded-full hover:bg-teal-600 transition transform hover:scale-110">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="bg-gray-800 text-white p-3 rounded-full hover:bg-teal-600 transition transform hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-gray-800 text-white p-3 rounded-full hover:bg-teal-600 transition transform hover:scale-110">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
                 </div>
                 
-                <div class="mb-8 md:mb-0">
+                <div>
                     <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
+                    <ul class="space-y-3">
                         <li><a href="#home" class="text-gray-400 hover:text-white transition">Home</a></li>
                         <li><a href="#about" class="text-gray-400 hover:text-white transition">About Us</a></li>
                         <li><a href="#services" class="text-gray-400 hover:text-white transition">Services</a></li>
@@ -507,71 +817,151 @@
                     </ul>
                 </div>
                 
-                <div class="mb-8 md:mb-0">
+                <div>
                     <h4 class="text-lg font-semibold mb-4">Services</h4>
-                    <ul class="space-y-2">
+                    <ul class="space-y-3">
                         <li><a href="#" class="text-gray-400 hover:text-white transition">Interior Renovation</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition">Custom Furniture</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition">Office Fit-Outs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Residential Makeovers</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white transition">Logistics & Transport</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h4 class="text-lg font-semibold mb-4">Connect With Us</h4>
-                    <div class="flex space-x-4 mb-4">
-                        <a href="#" class="bg-gray-700 text-white p-2 rounded-full hover:bg-teal-600 transition">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="bg-gray-700 text-white p-2 rounded-full hover:bg-teal-600 transition">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="bg-gray-700 text-white p-2 rounded-full hover:bg-teal-600 transition">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                    </div>
-                    <p class="text-gray-400">info@etcllc.ae</p>
-                    <p class="text-gray-400">+971 4 123 4567</p>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-teal-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">Business Bay, Dubai, UAE</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-teal-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">+971 4 123 4567</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-teal-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">info@etcllc.ae</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
             
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
                 <p>© 2025 ETC LLC. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <a href="#home" class="back-to-top bg-teal-600 text-white p-3 rounded-full shadow-lg hover:bg-teal-700 transition transform hover:scale-110">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
     <script>
         // Mobile menu toggle
-        document.getElementById('menu-btn').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mobileMenu.classList.toggle('open');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuBtn.classList.remove('active');
+                mobileMenu.classList.remove('open');
+            });
         });
 
         // Testimonial carousel
         let currentTestimonial = 0;
         const testimonials = document.querySelectorAll('.testimonial-card');
         const testimonialContainer = document.getElementById('testimonial-container');
+        const dots = document.querySelectorAll('.testimonial-dot');
         const totalTestimonials = testimonials.length;
+        let autoSlideInterval;
         
         function updateTestimonial() {
             const offset = -currentTestimonial * 100;
             testimonialContainer.style.transform = `translateX(${offset}%)`;
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === currentTestimonial) {
+                    dot.classList.add('bg-opacity-100');
+                    dot.classList.remove('bg-opacity-30');
+                } else {
+                    dot.classList.remove('bg-opacity-100');
+                    dot.classList.add('bg-opacity-30');
+                }
+            });
         }
         
-        document.getElementById('next-testimonial').addEventListener('click', function() {
+        function nextTestimonial() {
             currentTestimonial = (currentTestimonial + 1) % totalTestimonials;
             updateTestimonial();
-        });
+        }
         
-        document.getElementById('prev-testimonial').addEventListener('click', function() {
+        function prevTestimonial() {
             currentTestimonial = (currentTestimonial - 1 + totalTestimonials) % totalTestimonials;
             updateTestimonial();
+        }
+        
+        document.getElementById('next-testimonial').addEventListener('click', nextTestimonial);
+        document.getElementById('prev-testimonial').addEventListener('click', prevTestimonial);
+        
+        // Dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentTestimonial = index;
+                updateTestimonial();
+            });
         });
+        
+        // Auto slide
+        function startAutoSlide() {
+            autoSlideInterval = setInterval(nextTestimonial, 5000);
+        }
+        
+        function stopAutoSlide() {
+            clearInterval(autoSlideInterval);
+        }
+        
+        // Start auto slide
+        startAutoSlide();
+        
+        // Pause on hover
+        testimonialContainer.addEventListener('mouseenter', stopAutoSlide);
+        testimonialContainer.addEventListener('mouseleave', startAutoSlide);
 
         // Form submission
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your message! We will contact you soon.');
+            
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
+            successMessage.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <span>Thank you for your message! We will contact you soon.</span>
+                </div>
+            `;
+            
+            document.body.appendChild(successMessage);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.add('animate-fade-out');
+                setTimeout(() => {
+                    document.body.removeChild(successMessage);
+                }, 300);
+            }, 5000);
+            
+            // Reset form
             this.reset();
         });
 
@@ -587,6 +977,14 @@
                     element.classList.add('visible');
                 }
             });
+            
+            // Back to top button
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
         }
         
         window.addEventListener('scroll', checkScroll);
@@ -605,9 +1003,6 @@
                         top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
                     });
-                    
-                    // Close mobile menu if open
-                    document.getElementById('mobile-menu').classList.add('hidden');
                 }
             });
         });
@@ -624,6 +1019,19 @@
                 nav.classList.remove('py-2');
                 nav.classList.add('py-3');
             }
+        });
+
+        // Input field focus effects
+        document.querySelectorAll('.input-field').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('label').classList.add('text-teal-600');
+            });
+            
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.parentElement.querySelector('label').classList.remove('text-teal-600');
+                }
+            });
         });
     </script>
 </body>
