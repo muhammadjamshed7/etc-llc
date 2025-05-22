@@ -562,13 +562,69 @@
                 <!-- <a href="#contact" class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition">
                                 Learn more <i class="fas fa-arrow-right ml-2"></i>
                             </a> -->
-                <a
+                <!-- <a
                   href="javascript:void(0)"
                   onclick="openModal('Custom Furniture', 'Here’s a detailed explanation of our custom furniture solutions...')"
                   class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition"
                 >
                   Learn more <i class="fas fa-arrow-right ml-2"></i>
-                </a>
+                </a> -->
+                <!-- <a
+  href="javascript:void(0)"
+  onclick="openModal(
+    'Custom Furniture',
+    `<div class='space-y-4'>
+      <div>
+        <img src='https://via.placeholder.com/400x250?text=Furniture+1' class='rounded-lg mb-2 w-full' />
+        <p class='text-gray-700'>Elegant wooden sofa set with modern design and premium fabric.</p>
+      </div>
+      <div>
+        <img src='https://via.placeholder.com/400x250?text=Furniture+2' class='rounded-lg mb-2 w-full' />
+        <p class='text-gray-700'>Minimalist TV console unit with matte finish and ample storage.</p>
+      </div>
+      <div>
+        <img src='https://via.placeholder.com/400x250?text=Furniture+3' class='rounded-lg mb-2 w-full' />
+        <p class='text-gray-700'>Custom dining table set crafted from sustainable oak wood.</p>
+      </div>
+    </div>`
+  )"
+  class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition"
+>
+  Learn more <i class="fas fa-arrow-right ml-2"></i>
+</a> -->
+<a
+  href="javascript:void(0)"
+  onclick="openModal(
+    'Custom Furniture',
+    `<div class='space-y-4'>
+      <div>
+        <img src='https://via.placeholder.com/400x250?text=Furniture+1' class='rounded-lg mb-2 w-full' />
+        <p class='text-gray-700'>Elegant wooden sofa set with modern design and premium fabric.</p>
+      </div>
+      <div>
+        <img src='https://via.placeholder.com/400x250?text=Furniture+2' class='rounded-lg mb-2 w-full' />
+        <p class='text-gray-700'>Minimalist TV console unit with matte finish and ample storage.</p>
+      </div>
+      <div>
+        <img src='https://via.placeholder.com/400x250?text=Furniture+3' class='rounded-lg mb-2 w-full' />
+        <p class='text-gray-700'>Custom dining table set crafted from sustainable oak wood.</p>
+      </div>
+      <div class='pt-4 text-center'>
+        <a 
+          href='https://wa.me/971581437135?text=Hello%2C%20I%20need%20information%20about%20the%20custom%20furniture' 
+          target='_blank' 
+          class='inline-flex items-center px-6 py-3 bg-teal-600 text-white font-semibold rounded-full hover:bg-teal-700 transition'>
+          <i class='fab fa-whatsapp mr-2'></i> Chat on WhatsApp
+        </a>
+      </div>
+    </div>`
+  )"
+  class="text-teal-600 font-medium inline-flex items-center hover:text-teal-700 transition"
+>
+  Learn more <i class="fas fa-arrow-right ml-2"></i>
+</a>
+
+
               </div>
             </div>
           </div>
@@ -1561,12 +1617,21 @@
           }
         });
       });
-      function openModal(title, content) {
-        document.getElementById("modal-title").textContent = title;
-        document.getElementById("modal-content").textContent = content;
-        document.getElementById("service-modal").classList.remove("hidden");
-        document.getElementById("service-modal").classList.add("flex");
-      }
+    //   function openModal(title, content) {
+    //     document.getElementById("modal-title").textContent = title;
+    //     document.getElementById("modal-content").textContent = content;
+    //     document.getElementById("service-modal").classList.remove("hidden");
+    //     document.getElementById("service-modal").classList.add("flex");
+    //   }
+
+
+    function openModal(title, contentHtml) {
+  document.getElementById("modal-title").textContent = title;
+  document.getElementById("modal-content").innerHTML = contentHtml; // Note: use innerHTML
+  document.getElementById("service-modal").classList.remove("hidden");
+  document.getElementById("service-modal").classList.add("flex");
+}
+
 
       function closeModal() {
         document.getElementById("service-modal").classList.add("hidden");
